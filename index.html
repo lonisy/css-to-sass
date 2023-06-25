@@ -38,6 +38,16 @@
     </div>
 </section>
 <script>
+    const pre = document.querySelector('#sass-output');
+    pre.addEventListener('click', function() {
+        const textToCopy = pre.innerHTML;
+        const tempInput = document.createElement('input');
+        tempInput.value = textToCopy;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+    });
     document.getElementById('convert-button').addEventListener('click', function() {
         var cssInput = document.getElementById('css-input');
         var css = document.getElementById('css-input').value;
