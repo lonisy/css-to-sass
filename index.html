@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Convert CSS to SASS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+<style>
+    .title {
+        color: #3273dc;
+    }
+    .button {
+        background-color: #3273dc;
+        color: white;
+    }
+</style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Convert CSS to SASS</h1>
+        <form id="convertForm">
+            <div class="field">
+                <label class="label">CSS:</label>
+                <div class="control">
+                    <textarea class="textarea" id="css-input" placeholder="请输入要转换的CSS样式。注意：支持的最大长度为1000个字符。不支持媒体查询、嵌套规则等复杂结构。"></textarea>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">SASS:</label>
+                <div class="control">
+                    <pre id="sass-output"></pre>
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-primary" id="convert-button" type="button">Convert to SASS</button>
+            </div>
+        </form>
+    </div>
+</section>
+<script>
+    document.getElementById('convert-button').addEventListener('click', function() {
+        var cssInput = document.getElementById('css-input');
+        var css = document.getElementById('css-input').value;
+        if (css == ""){
+            cssInput.classList.add('is-danger');
+            return
+        }
+        cssInput.classList.remove('is-danger');
+        var lines = css.split('\n');
+        var sass = '';
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (line.endsWith('{')) {
+                sass += line.slice(0, -1) + '\n';
+            } else if (line.endsWith('}')) {
+                // do nothing
+            } else {
+                sass += '  ' + line.slice(0, -1) + '\n'; // remove semicolon
+            }
+        }
+        document.getElementById('sass-output').innerText = sass;
+    });
+</script>
+</body>
+</html>
